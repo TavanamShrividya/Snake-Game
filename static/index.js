@@ -47,7 +47,7 @@ function nextTick(){
             drawFood();
             moveSnake();
             drawSnake();
-            if(immunityTimer != 0) checkGameOver();
+            if(immunityTimer == 0){ checkGameOver();}
             nextTick();
             if(immunityTimer > 0){
             immunityTimer--;}
