@@ -9,15 +9,15 @@ const snakeColor = "lightgreen";
 const snakeBorder = "black";
 const carrotColor = "orange";
 const pumpkinPieColor = "brown";
-const goldenAppleColor = "gold";
+const goldenAppleColor = "yellow";
 const unitSize = 25;
 let running = false;
+let goldenAppleEaten = false;
 let xVelocity = unitSize;
 let yVelocity = 0;
 let foodX;
 let foodY;
 let foodColor;
-let food;
 let score = 0;
 let immunityTimer = 0;
 let snake = [
@@ -49,10 +49,14 @@ function nextTick(){
             drawSnake();
             if(immunityTimer == 0){ checkGameOver();}
             nextTick();
-            if(immunityTimer > 0){
+            if(immunityTimer > 1){
             immunityTimer--;}
+            else if(immunityTimer == 1){
+            goldenAppleEaten = false;
+            immunityTimer--;
+            }
 
-        }, 100);
+        }, 200);
     }
     else{
         displayGameOver();
@@ -67,41 +71,59 @@ function createFood(){
         const randInt = Math.round((Math.random() * 9 + 1));
         return randInt;
     }
-    if(pickWhichfood() % 2 == 0){
+    
+    function randomFood(min, max){
+    const randNum = Math.round((Math.random() * (max - min) + min) / unitSize) * unitSize;
+    return randNum;
+    }
+    let selectedFood = pickWhichFood();
+    console.log(selectedFood);
+    if(selectedFood % 2 == 0){
       foodColor = carrotColor;
-      food = carrot;
-
-      function randomFood(min, max){
-      const randNum = Math.round((Math.random() * (max - min) + min) / unitSize) * unitSize;
-      return randNum;
-      }
-
+      food = "carrot";
     }
-    else if(pickWhichFood() % 7 == 0){
-      foodColor = goldenAppleColor;
-      food = goldenApple;
-      immunityTimer = 100;
-
-      function randomFood(min, max){
-      const randNum = Math.round((Math.random() * (max - min) + min) / unitSize) * unitSize;
-      return randNum;
-      }
-
-    }
-    else{
+    else if(selectedFood % 3 == 0 || selectedFood == 5){
       foodColor = pumpkinPieColor;
-      food = pumpkinPie;
-
-      function randomFood(min , max){
-      const randNum = Math.round((Math.random() * ((max - (2 * unitSize)) - (min + (2 * unitSize))) + (min + (2 * unitSize))) / unitSize) * unitSize;
-      return randNum;
+      food = "pumpkinPie";
       }
-
+    else{
+      foodColor = goldenAppleColor;
+      food = "goldenApple";
     }
 
-    foodX = randomFood(0, gameWidth - unitSize);
-    foodY = randomFood(0, gameWidth - unitSize);
+    if(food == "pumpkinPie"){
+    foodX = randomFood(2*unitSize, gameWidth - 3*unitSize);
+    foodY = randomFood(2*unitSize, gameWidth - 3*unitSize);}
+    else{
+        foodX = randomFood(0, gameWidth - unitSize);
+        foodY = randomFood(0, gameWidth - unitSize);
+    }
 };
+function displayTimer(){
+    const timerDiv = document.getElementById("timer");
+
+    let countdownInterval;
+    let timeLeft = 10;
+
+    //show timer
+    timerDiv.style.display = "block";
+    timerDiv.textContent = timeLeft;
+    
+    // Clear previous interval if golden apple is eaten again
+    clearInterval(countdownInterval);
+
+    // Start countdown
+    countdownInterval = setInterval(() => {
+      timeLeft--;
+      timerDiv.textContent = timeLeft;
+
+      if (timeLeft <= 0) {
+        clearInterval(countdownInterval);
+        timerDiv.style.display = "none"; // Hide after 10 seconds
+      }
+    }, 1000);
+};
+
 function drawFood(){
     ctx.fillStyle = foodColor;
     ctx.fillRect(foodX, foodY, unitSize, unitSize);
@@ -109,19 +131,28 @@ function drawFood(){
 function moveSnake(){
     const head = {x: snake[0].x + xVelocity,
                   y: snake[0].y + yVelocity};
-    
+    const addition1 = {x: snake[0].x + 2*xVelocity,
+                        y: snake[0].y + 2*yVelocity};
+    const addition2 = {x: snake[0].x + 3*xVelocity,
+                        y: snake[0].y + 3*yVelocity};                   
     snake.unshift(head);
     //if food is eaten
     if(snake[0].x == foodX && snake[0].y == foodY){
-        if(food == pumpkinPie){
-            snake.unshift(head);
-            snake.unshift(head);
+        if(food == "pumpkinPie"){
+            snake.unshift(addition1);
+            snake.unshift(addition2);
             score+=3;
             scoreText.textContent = score;
         }
-        else if(food == carrot){
+        else if(food == "carrot"){
             score+=1;
             scoreText.textContent = score;
+        }
+        else{
+            snake.pop();
+            goldenAppleEaten = true;
+            immunityTimer = 50;
+            displayTimer();
         }
         createFood();
     }
@@ -209,3 +240,4 @@ function resetGame(){
     ];
     gameStart();
 };
+
