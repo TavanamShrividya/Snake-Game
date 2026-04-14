@@ -3,7 +3,7 @@
         <meta charset="UTF-8"> <!--Reads every universal character -->
         <meta name="viewport" content="width=device-width, initial-scale=1.0"><!--To match the width of the website to the width of the device-->
         <meta name="description" content="Snake Game using JS">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     </head>
 <body>
     <div id="gameContainer">
@@ -12,6 +12,6 @@
         <button id="resetBtn">Reset</button>
         <div id="timer">10</div>
     </div>
-    <script src="index.js"></script>
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
 </body>
 </html>
