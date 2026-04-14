@@ -4,12 +4,12 @@ const scoreText = document.querySelector("#scoreText");
 const resetBtn = document.querySelector("#resetBtn");
 const gameWidth = gameBoard.width;
 const gameHeight = gameBoard.height;
-const boardBackground = "white";
-const snakeColor = "lightgreen";
+const boardBackground = "#0e0f24";
+const snakeColor = "#236153";
 const snakeBorder = "black";
 const carrotColor = "orange";
-const pumpkinPieColor = "brown";
-const goldenAppleColor = "yellow";
+const pumpkinPieColor = "#432b20";
+const goldenAppleColor = "#f2c52e";
 const unitSize = 25;
 let running = false;
 let goldenAppleEaten = false;
@@ -222,7 +222,7 @@ function checkGameOver(){
 };
 function displayGameOver(){
     ctx.font = "50px MV Boli";
-    ctx.fillStyle = "black";
+    ctx.fillStyle = "#fbf9d4";
     ctx.textAlign = "center";
     ctx.fillText("GAME OVER!", gameWidth / 2, gameHeight / 2);
     running = false;

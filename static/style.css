@@ -1,12 +1,34 @@
+html{
+    background-image: url(../Gemini_Generated_Image_lo8rh5lo8rh5lo8r.png);
+    background-size:cover;
+    background-position: top;
+}
+
+body{
+    overflow: hidden;
+}
+
 #gameContainer{
     text-align: center;
+
 }
 #gameBoard{
-    border: 3px solid;
+    border: 10px solid;
+    border-radius: 30px;
+    padding: 2px;
+    margin-top: 7%;
 }
 #scoreText{
+    
     font-family: Arial, Helvetica, sans-serif, cursive;
     font-size: 50px;
+    border: 3px solid;
+    background-color: lightgrey;
+    text-align: center;
+    border-radius: 5px;
+    margin-top: 2%;
+    margin-left: 700px;
+    margin-right: 700px;
 }
 #resetBtn{
     font-family: Arial, Helvetica, sans-serif, cursive;
@@ -16,6 +38,7 @@
     border: 4px solid;
     border-radius: 15px;
     cursor: pointer;
+    margin-top: 1.5%;
 }
 #timer{
     display: none;
@@ -24,6 +47,7 @@
     font-size: 22px;
     border: 3px solid;
     border-radius: 10px;
-    width: 150px;
-    height: 100px;
+    width: 100px;
+    height: 44px;
+    background-color: lightgray;
 }
