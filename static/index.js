@@ -2,15 +2,18 @@ const gameBoard = document.querySelector("#gameBoard");
 const ctx = gameBoard.getContext("2d");
 const scoreText = document.querySelector("#scoreText");
 const resetBtn = document.querySelector("#resetBtn");
+const respawnBtn = document.querySelector("#respawnBtn");
 const gameWidth = gameBoard.width;
 const gameHeight = gameBoard.height;
 const boardBackground = "#0e0f24";
-const snakeColor = "#236153";
 const snakeBorder = "black";
 const carrotColor = "orange";
 const pumpkinPieColor = "#432b20";
 const goldenAppleColor = "#f2c52e";
-const unitSize = 25;
+const unitSize = 30;
+let deathByWall = false;
+let deathByBody = false;
+let gameLoop;
 let running = false;
 let goldenAppleEaten = false;
 let xVelocity = unitSize;
@@ -29,7 +32,7 @@ let snake = [
     { x: unitSize, y: 0 },
     { x: 0, y: 0 }
 ];
-let gameLoop;
+
 
 window.addEventListener("keydown", function(e) {
     if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
@@ -38,6 +41,7 @@ window.addEventListener("keydown", function(e) {
 });
 window.addEventListener("keydown", changeDirection);
 resetBtn.addEventListener("click", resetGame);
+respawnBtn.addEventListener("click", resetGame);
 
 gameStart();
 
@@ -48,6 +52,7 @@ function gameStart() {
     drawFood();
     nextTick();
 };
+
 function nextTick() {
     if (running) {
         gameLoop = setTimeout(() => {
@@ -71,10 +76,12 @@ function nextTick() {
         displayGameOver();
     }
 };
+
 function clearBoard() {
     ctx.fillStyle = boardBackground;
     ctx.fillRect(0, 0, gameWidth, gameHeight);
 };
+
 function createFood() {
     function pickWhichFood() {
         return Math.random();
@@ -185,9 +192,15 @@ function moveSnake() {
 };
 
 function drawSnake() {
-    ctx.fillStyle = snakeColor;
+
     ctx.strokeStyle = snakeBorder;
     snake.forEach(snakePart => {
+        let snakeColor = ctx.createRadialGradient(
+            snakePart.x + unitSize/2, snakePart.y + unitSize/2, unitSize/5, 
+            snakePart.x + unitSize/2, snakePart.y + unitSize/2, unitSize);
+        snakeColor.addColorStop(0, "#254228");
+        snakeColor.addColorStop(1, "#418b49");
+        ctx.fillStyle = snakeColor
         ctx.fillRect(snakePart.x, snakePart.y, unitSize, unitSize);
         ctx.strokeRect(snakePart.x, snakePart.y, unitSize, unitSize);
     })
@@ -249,35 +262,53 @@ function checkGameOver() {
     switch (true) {
         case (snake[0].x < 0):
             running = false;
+            deathByWall = true;
             break;
         case (snake[0].x >= gameWidth):
             running = false;
+            deathByWall = true;
             break;
         case (snake[0].y < 0):
             running = false;
+            deathByWall = true;
             break;
         case (snake[0].y >= gameHeight):
             running = false;
+            deathByWall = true;
             break;
     }
     for (let i = 1; i < snake.length; i += 1) {
         if (snake[i].x == snake[0].x && snake[i].y == snake[0].y) {
             running = false;
+            deathByBody = true;
         }
     }
 };
 
 function displayGameOver() {
-    ctx.font = "50px MV Boli";
-    ctx.fillStyle = "#fbf9d4";
-    ctx.textAlign = "center";
-    ctx.fillText("GAME OVER!", gameWidth / 2, gameHeight / 2);
-    running = false;
-};
+
+    document.getElementById("gameOverScreen").style.visibility = "visible";
+    document.getElementById("resetBtn").style.visibility = "hidden";
+
+    if (deathByWall == true) {
+        document.getElementById("deathMsg").innerHTML = "Username died because snake hit the wall";
+    }
+    if (deathByBody == true) {
+        document.getElementById("deathMsg").innerHTML = "Username died because snake hit itself";
+    }
+    
+    document.getElementById("endScoreText").innerHTML = `Score: <span id="score">${score}<span>`
+}
 
 function resetGame() {
     clearTimeout(gameLoop);
     
+    document.getElementById("gameOverScreen").style.visibility = "hidden";
+    document.getElementById("resetBtn").style.visibility = "visible";
+
+    deathByBody = false;
+    deathByWall = false;
+
     score = 0;
     xVelocity = unitSize;
     yVelocity = 0;
