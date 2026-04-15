@@ -6,11 +6,13 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     </head>
 <body>
-    <div id="gameContainer">
-        <canvas id="gameBoard" width="800" height="800"></canvas>
-        <div id="scoreText">0</div>
-        <button id="resetBtn">Reset</button>
-        <div id="timer">10</div>
+    <div id="gameWrapper">
+        <div id="gameContainer">
+            <div id="timer">10</div>
+            <canvas id="gameBoard" width="800" height="800"></canvas>
+            <div id="scoreText">0</div>
+            <button id="resetBtn">Reset</button>
+        </div>
     </div>
     <script src="{{ url_for('static', filename='index.js') }}"></script>
 </body>
