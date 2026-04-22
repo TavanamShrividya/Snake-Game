@@ -1,6 +1,6 @@
 html {
-    background-image: url(Gemini_Generated_Image_lo8rh5lo8rh5lo8r.png);
-    background-size: 100% 100%;
+    background-image: url(MainBG.jpg);
+    background-size: cover;
     background-repeat: no-repeat;
     margin: 0;
     padding: 0;
@@ -15,7 +15,9 @@ body {
     height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: start;
+    padding-top: 11vh;
+    padding-left: 2vh;
     font-family: 'Minecraftia';
 }
 
@@ -33,7 +35,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    gap: 5px;
+    gap: 10px;
 }
 
 #gameBoard {
@@ -46,14 +48,15 @@ body {
 
 #scoreText {
     padding: 10px;
-    font-size: 50px;
-    border: 3px solid;
-    background-color: lightgrey;
+    height: 50px;
+    border: 2px solid;
+    background-color: lightgray;
     text-align: center;
     border-radius: 15px;
     margin-top: 1vmin;
     width: 10vmin;
     font-size: 1.5vw;
+    visibility: visible;
 }
 
 #resetBtn {
@@ -110,7 +113,6 @@ body {
     width: 500px;
     height: 50px;
     border: 2px solid;
-    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.6);
     box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 1);
     border-radius: 5px;
     cursor: pointer;
