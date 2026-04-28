@@ -14,17 +14,14 @@ const pumpkinPieImage = new Image();
 const appleImage = new Image();
     appleImage.src = "/static/Golden_Apple_JE2_BE2.png"
 const unitSize = 25;
-let deathByWall = false;
-let deathByBody = false;
 let gameLoop;
 let running = false;
-let goldenAppleEaten = false;
 let xVelocity = unitSize;
 let yVelocity = 0;
 let countdownInterval;
 let duration= 0;
 let dataObject = {
-    username: "",
+    username: "dummy_name",
     score: 0,
     durationInSec: 0,
     causeOfDeath: ""
@@ -34,7 +31,6 @@ let foodY;
 let food;
 let foodImage;
 let immune = false
-// let immunityTimer = 0;
 let snake = [
     { x: unitSize * 4, y: 0 },
     { x: unitSize * 3, y: 0 },
@@ -48,18 +44,20 @@ ctx.imageSmoothingEnabled = false;
 window.addEventListener("keydown", function(e) {
     if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
         e.preventDefault();
+
     }
+
+    changeDirection(e);
+
 });
-window.addEventListener("keydown", changeDirection);
 resetBtn.addEventListener("click", resetGame);
 respawnBtn.addEventListener("click", resetGame);
 
 let imagesLoaded = 0;
-const totalImages = 3;
 
 function checkImagesLoaded() {
     imagesLoaded++;
-    if (imagesLoaded === totalImages) {
+    if (imagesLoaded === 3) {
         gameStart();
     }
 }
@@ -85,13 +83,6 @@ function nextTick() {
             drawSnake();
             if (immune == false) { checkGameOver(); }
             nextTick();
-            // if (immunityTimer > 1) {
-            //     immunityTimer--;
-            // }
-            // else if (immunityTimer == 1) {
-            //     goldenAppleEaten = false;
-            //     immunityTimer--;
-            // }
             duration += 1;
             dataObject.durationInSec = Math.floor(duration/5)
         }, 200);
@@ -107,18 +98,18 @@ function clearBoard() {
     ctx.fillRect(0, 0, gameWidth, gameHeight);
 };
 
-function createFood() {
-    function pickWhichFood() {
-        return Math.random();
-    }
+function pickWhichFood() {
+    return Math.random();
+}
 
-    function randomFood(min, max) {
-        const randNum = Math.round((Math.random() * (max - min) + min) / unitSize) * unitSize;
-        return randNum;
-    }
+function randomFood(min, max) {
+    const randNum = Math.round((Math.random() * (max - min) + min) / unitSize) * unitSize;
+    return randNum;
+}
+
+function createFood() {
     
     let selectedFood = pickWhichFood();
-    console.log(selectedFood);
     if (selectedFood < 0.7) {
         foodImage = carrotImage;
         food = "carrot";
@@ -162,7 +153,6 @@ function displayTimer() {
             clearInterval(countdownInterval);
             timerDiv.style.visibility = "hidden"; // Hide after 10 seconds
             immune = false;
-            goldenAppleEaten = false;
         }
     }, 1000);
 };
@@ -171,6 +161,11 @@ function displayTimer() {
 function drawFood() {
     ctx.drawImage(foodImage, foodX - 3, foodY - 3, unitSize + 6, unitSize + 6);
 };
+
+function updateScore(points) {
+    dataObject.score += points;
+    scoreText.textContent = dataObject.score;
+}
 
 function moveSnake() {
     const head = {
@@ -198,12 +193,9 @@ function moveSnake() {
         if (food == "pumpkinPie") {
             snake.unshift(addition1);
             snake.unshift(addition2);
-            dataObject.score += 3;
-            scoreText.textContent = dataObject.score;
-        }
+            updateScore(3); }
         else if (food == "carrot") {
-            dataObject.score += 1;
-            scoreText.textContent = dataObject.score;
+            updateScore(1);
         }
         else {
             snake.pop();
@@ -281,24 +273,12 @@ function changeDirection(event) {
 };
 
 function checkGameOver() {
-    switch (true) {
-        case (snake[0].x < 0):
-            running = false;
-            dataObject.causeOfDeath = "wall";
-            break;
-        case (snake[0].x >= gameWidth):
-            running = false;
-            dataObject.causeOfDeath = "wall";
-            break;
-        case (snake[0].y < 0):
-            running = false;
-            dataObject.causeOfDeath = "wall";
-            break;
-        case (snake[0].y >= gameHeight):
-            running = false;
-            dataObject.causeOfDeath = "wall";
-            break;
+    if (snake[0].x < 0 || snake[0].x >= gameWidth ||
+        snake[0].y < 0 || snake[0].y >= gameHeight) {
+        running = false;
+        dataObject.causeOfDeath = "wall";
     }
+
     for (let i = 1; i < snake.length; i += 1) {
         if (snake[i].x == snake[0].x && snake[i].y == snake[0].y) {
             running = false;
@@ -316,7 +296,7 @@ function displayGameOver() {
 
     document.getElementById("deathMsg").innerHTML = `${dataObject.username} died because snake hit the ${dataObject.causeOfDeath}`;
     
-    document.getElementById("endScoreText").innerHTML = `Score: <span id="score">${dataObject.score}</span><br>Duration: <span id="score">${dataObject.durationInSec}</span> seconds`
+    document.getElementById("endScoreText").innerHTML = `Score: <span id="score">${dataObject.score}</span><br>Duration: <span id="score">${dataObject.durationInSec}</span> sec`
 }
 
 async function sendScore(dataObject) {
@@ -342,13 +322,11 @@ function resetGame() {
     clearTimeout(gameLoop);
     clearInterval(countdownInterval);
 
-    goldenAppleEaten = false;
     immune = false;
 
     const timerDiv = document.getElementById("timer");
-    if (timerDiv) {
-        timerDiv.style.visibility = "hidden";
-    }
+    timerDiv.style.visibility = "hidden";
+
     
     document.getElementById("gameOverScreen").style.visibility = "hidden";
     document.getElementById("resetBtn").style.visibility = "visible";

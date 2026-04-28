@@ -1,6 +1,5 @@
 from flask import Flask,render_template, request, jsonify
 from datetime import datetime
-import os
 app = Flask(__name__)
 @app.route('/')
 def index():
@@ -9,8 +8,6 @@ def index():
 @app.route("/save_score", methods=["POST"])
 def save_score():
     data = request.get_json()
-
-    print(data)
 
     required_fields = ["username", "score", "causeOfDeath", "durationInSec"]
 

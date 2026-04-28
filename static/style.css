@@ -92,7 +92,7 @@ body {
     display: flex;
     flex-direction: column;
 
-    background: rgba(255, 0, 0, 0.2); /* 🔴 red overlay */
+    background: rgba(255, 0, 0, 0.25);/* 🔴 red overlay */
     
     justify-content: center;
     align-items: center;
@@ -123,12 +123,14 @@ body {
 #deathMsg {
     font-size: 22px;
     color: white;
+    text-align: center;
 }
 
 #endScoreText {
     font-size: 22px;
     color: white;
     margin-bottom: 50px;
+    text-align: center;
 }
 
 #score {
