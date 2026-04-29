@@ -73,6 +73,12 @@ userNameBackBtn.addEventListener("click", displayTitleScreen);
 instructionsBackBtn.addEventListener("click", displayTitleScreen);
 enterUsernameBtn.addEventListener("click", enterUsername);
 titleScrnBtn.addEventListener("click", displayTitleScreen);
+usernameInput.addEventListener("keydown",function(e){
+    if(e.key === "Enter" && document.getElementById("usernameForm").style.display !== "none"){
+         e.preventDefault();
+         startGameBtn.click();
+    }
+});
 startGameBtn.addEventListener("click", function () {
     const username = usernameInput.value.trim();
     if (username) {
@@ -87,7 +93,7 @@ let imagesLoaded = 0;
 
 function checkImagesLoaded() {
     imagesLoaded++;
-    if (imagesLoaded === 3) {
+    if (imagesLoaded === 4) {
         displayTitleScreen();
     }
 }
@@ -95,6 +101,7 @@ function checkImagesLoaded() {
 carrotImage.onload = checkImagesLoaded;
 pumpkinPieImage.onload = checkImagesLoaded;
 appleImage.onload = checkImagesLoaded;
+sweetBerriesImage.onload = checkImagesLoaded;
 function displayTitleScreen() {
     document.getElementById("titleScreen").style.visibility = "visible";
     document.getElementById("instructionsScreen").style.display = "none";
@@ -103,7 +110,9 @@ function displayTitleScreen() {
 }
 
 function gameStart() {
+    const savedUsername = dataObject.username;  // save before reset clears it
     resetGame();
+    dataObject.username = savedUsername; 
     document.getElementById("titleScreen").style.visibility = "hidden";
     document.getElementById("usernameForm").style.display = "none";
     document.getElementById("gameOverScreen").style.visibility = "hidden";
@@ -118,7 +127,8 @@ function gameStart() {
 function enterUsername() {
     document.getElementById("titleScreen").style.visibility = "hidden";
     document.getElementById("usernameForm").style.display = "flex";
-}
+};
+
 function nextTick() {
     if (running) {
         gameLoop = setTimeout(() => {
