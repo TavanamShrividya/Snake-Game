@@ -18,13 +18,13 @@ const gameHeight = gameBoard.height;
 const boardBackground = "#0e0f24";
 const snakeBorder = "black";
 const carrotImage = new Image();
-carrotImage.src = "/static/Carrot_JE3_BE2.png";
+carrotImage.src = "/static/foodImages/Carrot_JE3_BE2.png";
 const pumpkinPieImage = new Image();
-pumpkinPieImage.src = "/static/Pumpkin_Pie_JE2_BE2.png";
+pumpkinPieImage.src = "/static/foodImages/Pumpkin_Pie_JE2_BE2.png";
 const appleImage = new Image();
-appleImage.src = "/static/Golden_Apple_JE2_BE2.png"
+appleImage.src = "/static/foodImages/Golden_Apple_JE2_BE2.png"
 const sweetBerriesImage = new Image();
-sweetBerriesImage.src = "/static/Sweet_Berries_JE1_BE1.png"
+sweetBerriesImage.src = "/static/foodImages/Sweet_Berries_JE1_BE1.png"
 const unitSize = 25;
 const normalSpeed = 200;
 const boostSpeed = 100;
@@ -47,6 +47,8 @@ let food;
 let foodImage;
 let immune = false;
 let snakeSpeed = normalSpeed;
+let highestScore = 0;
+let recordBeaten = false;
 let snake = [
     { x: unitSize * 4, y: 0 },
     { x: unitSize * 3, y: 0 },
@@ -120,6 +122,8 @@ function gameStart() {
     document.getElementById("scoreText").style.visibility = "visible";
     running = true;
     scoreText.textContent = dataObject.score;
+    clearBoard();
+    drawSnake();
     createFood();
     drawFood();
     nextTick();
@@ -248,6 +252,10 @@ function drawFood() {
 function updateScore(points) {
     dataObject.score += points;
     scoreText.textContent = dataObject.score;
+    if (dataObject.score > highestScore) {
+        highestScore = dataObject.score;
+        recordBeaten = true;
+    }
 }
 
 function moveSnake() {
@@ -389,7 +397,8 @@ function displayGameOver() {
     document.getElementById("scoreText").style.visibility = "hidden";
 
 
-    document.getElementById("deathMsg").innerHTML = `${dataObject.username} died because snake hit the ${dataObject.causeOfDeath}`;
+    document.getElementById("deathMsg").innerHTML = `${dataObject.username} died because snake hit the <span style="color: yellow;">${dataObject.causeOfDeath}</span>.
+    <br>${recordBeaten ? `New High Score! <br> High Score: <span style="color: yellow;">${highestScore}</span>`: `High Score: <span style="color: yellow;">${highestScore}</span>`}`;
     
     document.getElementById("endScoreText").innerHTML = `Score: <span id="score">${dataObject.score}</span><br>Duration: <span id="score">${dataObject.durationInSec}</span> sec`
 }
@@ -419,7 +428,7 @@ function resetGame() {
 
     immune = false;
     boost = false;
-    snakeSpeed = normalSpeed;
+    recordBeaten = false;
 
     document.getElementById("immuneTimer").style.visibility = "hidden";
     document.getElementById("boostTimer").style.visibility = "hidden";

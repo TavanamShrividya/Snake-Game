@@ -6,7 +6,7 @@
 }
 
 html {
-    background-image: url(MainBG.jpg);
+    background-image: url('/static/BGImages/MainBG.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     margin: 0;
@@ -55,7 +55,7 @@ body {
 }
 
 #scoreText {
-    padding: 10px;
+    padding: 5px;
     height: 25vw;
     border: 0.2vw solid;
     background-color: lightgray;
@@ -63,15 +63,15 @@ body {
     border-radius: 15px;
     margin-top: 1vmin;
     width: 8vmin;
-    font-size: 1.2vw;
+    font-size: 1.5vw;
     visibility: visible;
 }
 
 #resetBtn {
     font-family: 'MyFont', sans-serif;
-    font-size: 1vw;
-    width: 5vw;
-    height: 3vw;
+    font-size: 1.2vw;
+    width: 5.2vw;
+    height: 3.2vw;
     border: 0.2vw solid;
     border-radius: 0.5vw;
     cursor: pointer;
@@ -118,7 +118,7 @@ body {
 }
 
 #instructionText {
-    background-image: url(bookBG.png);
+    background-image: url('/static/BGImages/bookBG.png');
     background-size:contain;
     background-repeat: no-repeat;
     font-family: 'MyFont', sans-serif;
@@ -147,7 +147,7 @@ body {
 
     display: none;
     z-index: 1010;
-    background: url(F167.jpg);
+    background: url('/static/BGImages/TitleScreenBG.jpg');
     background-size: cover;
 }
 
@@ -185,7 +185,7 @@ label{
     justify-content: center;
     align-items: center;
     z-index: 1010;
-    background: url(F167.jpg);
+    background: url(/static/BGImages/TitleScreenBG.jpg);
     background-size: cover;
 }
 
@@ -210,7 +210,7 @@ label{
 }
 
 #deathMsg {
-    font-size: 18px;
+    font-size: 1.3vw;
     color: white;
     text-align: center;
 }
