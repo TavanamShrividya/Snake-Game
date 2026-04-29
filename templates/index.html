@@ -15,7 +15,7 @@
 
     </div>
     <div id="gameWrapper">
-        <div id="gameContainer">
+        <div class="gameContainer">
             <div id="immuneTimer"></div>
             <div id="boostTimer"></div>
             <canvas id="gameBoard" width="800" height="800"></canvas>
@@ -24,8 +24,8 @@
         </div>
     </div>
     <div id="titleScreen">
-        <div id="gameContainer">
-            <div id="gameLogo"><img src="{{ url_for('static', filename='/SNAKE-GAME-logo.png') }}" alt="Game Logo"></div>
+        <div class="gameContainer">
+            <div id="gameLogo" style="padding-bottom: 5vw;"><img src="{{ url_for('static', filename='/SNAKE-GAME-logo.png') }}" alt="Game Logo" style="height: 13vw;"></div>
             <button id="enterUsername" class="gameOverBtn">Enter Username</button>
             <button id="instructionsBtn" class="gameOverBtn">Instructions</button>
         </div>
@@ -34,16 +34,18 @@
         <form id="usernameForm" style="display:none;">
             <label for="usernameInput">Enter your username:</label>
             <input type="text" id="usernameInput" name="username">
-            <button type="button" id="startGameBtn" id="gameOverBtn">StartGame</button>
-            <button type="button" id="userNameBackBtn" id="backBtn">Back to Title Screen</button>
+            <button type="button" id="startGameBtn" class="gameOverBtn">Start Game</button>
+            <button type="button" id="userNameBackBtn" class="gameOverBtn">Title Screen</button>
         </form>
     </div>
     <div id="instructionsScreen">
-        <h2>Instructions</h2>
-        <p>Use the arrow keys to control the snake.</p>
-        <p>Eat the food to grow longer.</p>
-        <p>Avoid colliding with the walls or yourself.</p>
-        <button id="instructionsBackBtn" class="gameOverBtn">Back to Title Screen</button>
+        <div id="instructionText">
+            <h2>Instructions</h2>
+            <p>Use the arrow keys to control the snake.</p>
+            <p>Eat the food to grow longer.</p>
+            <p>Avoid colliding with the walls or yourself.</p>
+        </div>
+        <button id="instructionsBackBtn" class="gameOverBtn">Title Screen</button>
     </div>
 
     <script src="{{ url_for('static', filename='index.js') }}"></script>

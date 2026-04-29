@@ -34,7 +34,7 @@ body {
     height: 100vh;
 }
 
-#gameContainer {
+.gameContainer {
     position: relative;
     margin-top: 10px;
     width: 70vmin;
@@ -117,6 +117,21 @@ body {
     /* 🔴 red overlay */
 }
 
+#instructionText {
+    background-image: url(bookBG.png);
+    background-size:contain;
+    background-repeat: no-repeat;
+    font-family: 'MyFont', sans-serif;
+    font-size: 1.2vw;
+    color: black;
+    height: 60vh;
+    width: 35vw;
+    text-align: center;
+    padding-top: 5.2vw;
+    padding-left: 1vw;
+    padding-right: 1vw;
+}
+
 #instructionsScreen,
 #usernameForm {
     position: fixed;
@@ -137,20 +152,26 @@ body {
 }
 
 #usernameInput {
-    font-family: 'Minecraftia';
-    font-size: 14px;
+    font-family: 'MyFont', sans-serif;
+    font-size: 2vw;
     background: #111;
     color: #fff;
-    border: 2px solid #666;
+    border: 0.2vw solid #666;
     padding: 10px 16px;
-    width: 500px;
+    width: 50vw;
     margin-bottom: 10px;
     outline: none;
     text-align: center;
 
 }
 
-
+label{
+    font-family: 'MyFont', sans-serif;
+    font-size: 2vw;
+    color: white;
+    margin-bottom: 20px;
+    text-shadow: #111 2px 2px 2px;
+}
 
 #titleScreen {
     position: fixed;
