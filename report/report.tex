@@ -1,6 +1,7 @@
 \documentclass[12pt, letterpaper]{article}
 \usepackage{graphicx} % Required for inserting images
 \usepackage{url}
+\usepackage{hyperref}
 
 \graphicspath{{./static/}}
 
@@ -14,7 +15,10 @@ Shrividya Tavanam \\ and \\ Mehakdeep Kaur
 
 \maketitle
 
+
 \tableofcontents
+
+\clearpage
 
 \section{Introduction}
 The Snake Game, themed like Minecraft, is an upgraded version of the infamous Snake Game played in most arcades and mobile phones. The website based game works in three layers. It uses HTML, CSS, and JavaScript for game display, control, and logic. The next layer is Python, using the flask external library. The final, backend layer is bash script for display of previous data on query.
@@ -93,11 +97,42 @@ This data can be accessed using the bash query feature. This layer interacts wit
 
 \section{Code Logic}
 \subsection{Game Logic}
-The game logic has a few key ideas behind it
+The game logic has a few key ideas behind it; \textbf{create snake}, \textbf{move snake}, \textbf{create food}, \textbf{place food}, \textbf{snake eats food} and \textbf{snake dies}.
+\subsubsection{Create Snake}
+The snake is an array of objects. Each element of the array is an object that has the x and y coordinates of that part of the snake. The snake is initially set to be of length 5 (has 5 elements) with the coordinates of the tail being (0,0) on the canvas.
+
+\subsubsection{Move Snake}
+Since the snake is just an array, the head of the snake is defined to be an object whose elements are the x and y coordinates of the first element of the snake array + velocity of the snake. \textbf{Velocity} of the snake is changed according to the key pressed. This head is then added to the array  using unshift method of arrays to ensure it is at the start. The tail is removed using pop method. Since one elements is added and another is removed, the length remains constant but the snake moves forward.
+
+\subsubsection{Create Food}
+Since there are four types of food, we made a function that picks one of them using the \textit{Math.random} function. This is used to assign the food and the image to appear on the screen.
+
+\subsubsection{Place Food}
+\textit{Math.random} fucntion is used again to pick random x and y coordinates where the food must appear, the decimals are scaled accordingly to create valid coordinates. Since some foods like pumpkin pie and sweet berries move the head of the snake too abruptly, they are ensured to not generate too close to the walls. 
+
+\subsubsection{Snake Eats Food}
+The food is considered eaten when the x and y coordinates of the snake's head are same that of the food being displayed at that instance. The carrot adds one health point, so the tail is not popped off in this case. The pumpkin pie adds three health points, so the tail is not popped off and two addition elements are added to the array of the snake at the start. Golden Apple gives immunity, so the \textit{checkGameOver} function is not run during those 10 seconds of immunity. Similarly, the sweet berry gives a boost, so the time for \textit{setTimeOut} of \textit{gameLoop} is decreased accordingly. If either of the foods are eaten again while the respective perks are active, the timer simple restarts from 10 seconds.
+
+\subsubsection{Snake Dies}
+The snake can die in two condition; when the snake hits the wall or when the snake collides with it's own body. The first is done by a simple if condition check. The later is done using a loop that checks if coordinates of the head are equal to head of any of the body part.
 
 \subsection{Query Logic}
 
+
+\section{Installation and Setup}
+Install flask using \textit{pip install Flask}
+Download the Minecraft font from the website from \href{https://www.cdnfonts.com/minecraft-3.font}{CDNfonts}\cite{fonts-website}, then move \textit{1\_MinecraftRegular1fonts.otf} into fonts folder in static folder. 
+
+\section{Usage}
+
+The program is run using the command \textit{python3 app.py}. This provides you with a link in terminal that can be opened in a browser. 
+
+The bash query is run by using the command \textit{bash admin.sh}. A menu is presented out of which an operation can be selected by entering numbers from 1 to 7. If username is provided in choice 1 then the operations are done accordingly, else it is performed for all users.
+
+
 \section{Directory Structure}
+
+\clearpage
 \begin{verbatim}
 snake-system/
 |-- app.py
@@ -126,6 +161,23 @@ snake-system/
       |-- logo/
           |-- SNAKE-GAME-logo.png
 \end{verbatim}
+
+\section{What we feel..}
+Major hurdles faced
+\begin{description}
+    \item[Integrating github and git knowledge] The first few weeks of the projects was just us hopelessly coding on our laptop and committing with zero knowledge of how github and the git we installed are linked to each other. Sometimes we forgot to pull before working. As they say, time heals all. Eventually we just sat down and figured out how bash worked.
+    \item[Resizing of screen based on device] Even to this date, most of our game is doesn't look the same when played on devices with different screen sizes. The initial problem was that the retry button and scoreText at the bottom of the screen would disappear when the screen was minimized because of the change in height and width ratio. We eventually started to use vw instead px for most of the css and fixed the initial problem.
+    \item[Increasing length of snake by three units] This caused the snakes appearances and the location of head to change abruptly. Often lead to the death of snake. We overcame this by ensuring that the pumpkin too close to the walls.
+\end{description}
+
+What would we do given 10 more hours
+\begin{itemize}
+    \item Fix the issue regarding screen resizing. Ensure that the entire css is dynamic to the window size.
+    \item Use ASCII codes for history.txt and bash to make it more user-friendly to read.
+    \item Ensure that the food is not generate too close or on the body of the snake.
+    \item Change the high score so as to include a login based definition of high score.
+\end{itemize}
+
 
 \bibliographystyle{IEEEtran} % We choose the "plain" reference style
 \bibliography{refs} % Entries are in the refs.bib file
