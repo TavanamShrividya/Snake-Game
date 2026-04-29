@@ -1,0 +1,115 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{url}
+
+\graphicspath{{./static/}}
+
+\title{Snake Game Project Report}
+\author{
+Shrividya Tavanam \\ and \\ Mehakdeep Kaur
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+The Snake Game, themed like Minecraft, is an upgraded version of the infamous Snake Game played in most arcades and mobile phones. The website based game works in three layers. It uses HTML, CSS, and JavaScript for game display, control, and logic. The next layer is Python, using the flask external library. The final, backend layer is bash script for display of previous data on query.
+
+\section{External Libraries}
+\subsection{Flask}
+
+Flask is a lightweight WSGI web application framework\cite{flaskwebsite}. Of the many uses flask has, we have made use of flask for HTML templating, routing and handling requests. In app.py, \textit{Falsk}, \textit{render\_template}, \textit{request} and \textit{jsonify} are being imported from flask. 
+
+\subsubsection*{Flask}
+
+Flask is the core application object. It creates a web application instance, assigned to the variable \textit{app}, that can handle, requests, routing and responses. So \textit{app} is the representation of the actual working website we created.
+
+\subsubsection*{render\_template}
+
+render\_template is a flask function that loads index.html and sends it to the browser as a response. The python program executes the run method of \textit{app}. This creates a server and it waits for requests. When the HTTP link is opened, the brower sends a GET / request. This runs the function \textit{index} that renders the template i.e. looks inside the template folder and searches for index.html and sends it to the browser. 
+
+\subsubsection*{request}
+
+request is a Flask object that contains data send by the client, this includes the JSON body. In this code we use the \textit{get\_json} method of the request object which returns a python dictionary from the incoming JSON data.
+
+\subsubsection*{jsonify}
+
+jsonify is a function in flask that converts the python dictionary into a JSON response and sends it to the client that sent the POST request.
+
+\section{Features}
+\subsection{Title Screen}
+The title screen is the first screen visible when the browers is opened and navigated to \textit{http://127.0.0.1:5000}. This screen contains the game logo and two button; the instructions button and the login button. They open the instructions modal and username entry modal respectively.
+
+\subsection{Instruction Modal}
+This modal displays the rules for the Snake Game. It is made with a minecraft book background. There are two buttons, one that takes the user to the username entry modal and other that closes the modal.
+
+\subsection{Username Entry Modal}
+This displays a form that allows the user to enter a username and only then play the game. It also has button to close the modal and a button that directs it to the instruction modal.
+
+\subsection{Game Controls}
+The Snake Game involves controlling the snake to move towards the food. This controlling can be done through both the arrow keys and WASD keys on the keyboard.
+
+\subsection{Food types}
+There are multiple types of food in the game.
+\subsubsection*{Carrot \raisebox{-0.1cm}{\includegraphics[width=0.6cm]{Carrot_JE3_BE2.png}}}
+This is a simple food type that adds one point to the score and one unit length to the snake. It has a 60\% probability to appear.
+
+\subsubsection*{Pumpkin Pie \raisebox{-0.1cm}{\includegraphics[width=0.6cm]{Pumpkin_Pie_JE2_BE2.png}}}
+Pumpkin pie is a food type with extra health. It adds three points to the score and adds length three to the snake. It has a 25\% 
+
+\subsubsection*{Sweet Berries \raisebox{-0.1cm}{\includegraphics[width=0.6cm]{Sweet_Berries_JE1_BE1.png}}}
+Sweet Berries are booster foods. They increase the speed by a factor of 2 for 10 seconds. If a sweet berry is consumed while the speed is already doubled, it simply restarts the timer from 10. It does not add to the score or change length of body. It has a 10\% probability of appearing.
+
+\subsubsection*{Golden Apple \raisebox{-0.1cm}{\includegraphics[width=0.6cm]{Golden_Apple_JE2_BE2.png}}}
+Golden Apples are immunity foods that provide immortality for 10 seconds. The snake does not die when it collides with its own body when immune and passes through appearing on the opposite wall if it runs into them. If a golden apple is consumed while the snake is already immune, it simply restarts the timer from 10. It does not add to the score or change length of body. It has a 5\% probability of appearing.
+
+\subsection{Timers}
+There are two timers in the game: \textbf{Immunity Timer} and \textbf{Boost Timer}. Both of these appear when the respective food is consumed and counts down from 10 to 0 unless the food is eaten again within those 10 seconds. The immunity timer appears to the top right of the game canvas and the boost timer appears to the top left corner.
+
+\subsection{Game Over Screen}
+The game ends when the snake hits the wall or itself. Under such situations, the game over screen is displayed. It has a red overlay with display details about the game score, username, cause of death, duration game was played. It also has two buttons; \textbf{Respawn} and \textbf{Title Screen}; Respawn allows one to replay the game with the same username. To play with a different username, one can go back to the Title Screen.
+
+\subsection{Bash Query}
+
+\section{Design and Architecture}
+
+
+
+\section{Directory Structure}
+\begin{verbatim}
+snake-system/
+|-- app.py
+|-- admin.sh
+|-- history.txt
+|-- report/
+      |-- report.tex
+      |-- refs.bib
+      |-- report.pdf
+      |-- Makefile
+|-- static/
+      |-- index.html
+      |-- script.js
+      |-- style.css
+      |-- BGImages/
+          |-- MainBG.jpg
+          |-- bookBG.jpg
+          |-- TitleScreenBG.jpg
+      |-- fonts/
+          |-- 1_MinecraftRegular1.otf
+      |-- foodImages/
+          |-- Carrot_JE3_BE2.png
+          |-- Golden_Apple_JE2_BE2.png
+          |-- Pumpkin_Pie_JE2_BE2.png
+          |-- Sweet_Berries_JE1_BE1.png
+      |-- logo/
+          |-- SNAKE-GAME-logo.png
+\end{verbatim}
+
+\bibliographystyle{IEEEtran} % We choose the "plain" reference style
+\bibliography{refs} % Entries are in the refs.bib file
+
+\end{document}
