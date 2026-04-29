@@ -41,9 +41,17 @@
     <div id="instructionsScreen">
         <div id="instructionText">
             <h1>Instructions</h1>
-            <p>Use the arrow keys to control the snake.</p>
-            <p>Eat the food to grow longer.</p>
-            <p>Avoid colliding with the walls or yourself.</p>
+            Eat food to grow and score points without hitting yourself or the walls.<br>
+            Use Arrow Keys or WASD to move.<br>
+            Food: 1.Carrot: Adds 1 point and 1 unit of length.<br>
+                2.Pumpkin Pie (25%): Adds 3 points and 3 units of length.<br>
+                3.Sweet Berries (10%): Boost. Double speed for 10 seconds.<br>
+                4.Golden Apple (5%): Immunity. 10 seconds of invulnerability (pass through walls and your own body).<br>
+
+            Timers: Monitor the top corners for active Boost or Immunity durations.<br>
+
+            Game Over: Occurs upon wall or self-collision unless the Immunity effect is active.<br>
+
         </div>
         <button id="instructionsBackBtn" class="gameOverBtn">Title Screen</button>
     </div>

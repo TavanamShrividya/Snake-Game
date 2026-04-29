@@ -124,12 +124,12 @@ body {
     font-family: 'MyFont', sans-serif;
     font-size: 1.2vw;
     color: black;
-    height: 55vh;
-    width: 23vw;
+    height: 75vh;
+    width: 30vw;
     text-align: center;
-    padding-top: 2.5vw;
-    padding-left: 1.5vw;
-    padding-right: 1.5vw;
+    padding-top: 4.5vw;
+    padding-left:4.5vw;
+    padding-right: 4.5vw;
 }
 
 #instructionsScreen,
