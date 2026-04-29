@@ -22,15 +22,15 @@ The Snake Game, themed like Minecraft, is an upgraded version of the infamous Sn
 \section{External Libraries}
 \subsection{Flask}
 
-Flask is a lightweight WSGI web application framework\cite{flaskwebsite}. Of the many uses flask has, we have made use of flask for HTML templating, routing and handling requests. In app.py, \textit{Falsk}, \textit{render\_template}, \textit{request} and \textit{jsonify} are being imported from flask. 
+Flask is a lightweight WSGI web application framework\cite{flaskwebsite}. Of the many uses flask has, we have made use of flask for HTML templating, routing and handling requests. In app.py, \textit{Falsk}, \textit{send\_from\_directory}, \textit{request} and \textit{jsonify} are being imported from flask. 
 
 \subsubsection*{Flask}
 
 Flask is the core application object. It creates a web application instance, assigned to the variable \textit{app}, that can handle, requests, routing and responses. So \textit{app} is the representation of the actual working website we created.
 
-\subsubsection*{render\_template}
+\subsubsection*{send\_from\_directory}
 
-render\_template is a flask function that loads index.html and sends it to the browser as a response. The python program executes the run method of \textit{app}. This creates a server and it waits for requests. When the HTTP link is opened, the brower sends a GET / request. This runs the function \textit{index} that renders the template i.e. looks inside the template folder and searches for index.html and sends it to the browser. 
+send\_from\_directory is a Flask function that directly serves the html file from static folder and sends it to the browser as a response. The Python program executes the run method of \textit{app,} which starts a server and waits for incoming requests. When the HTTP link is opened, the browser sends a GET / request. This triggers the function index, which calls send\_from\_directory. Flask then looks inside the static, locates index.html, and returns it to the browser without using any templating engine.
 
 \subsubsection*{request}
 
@@ -42,7 +42,7 @@ jsonify is a function in flask that converts the python dictionary into a JSON r
 
 \section{Features}
 \subsection{Title Screen}
-The title screen is the first screen visible when the browers is opened and navigated to \textit{http://127.0.0.1:5000}. This screen contains the game logo and two button; the instructions button and the login button. They open the instructions modal and username entry modal respectively.
+The title screen is the first screen visible when the brower is opened and navigated to \textit{http://127.0.0.1:5000}. This screen contains the game logo and two button; the instructions button and the login button. They open the instructions modal and username entry modal respectively.
 
 \subsection{Instruction Modal}
 This modal displays the rules for the Snake Game. It is made with a minecraft book background. There are two buttons, one that takes the user to the username entry modal and other that closes the modal.
@@ -76,8 +76,26 @@ The game ends when the snake hits the wall or itself. Under such situations, the
 \subsection{Bash Query}
 
 \section{Design and Architecture}
+The project works in three layers. Frontend: \textbf{Javascript}, \textbf{Python: Flask} and backend: \textbf{Bash Script}.
 
+HTML, CSS and JavaScript make up the frontend of the game, everything that is seen on the screen during the game is controlled and coded in web only. The game logic is in JS. 
 
+Flask library in python is used to serve index.html from static and send it to the browser. When \textit{python3 app.py} is run, it creates a server and waits for requests. When the link is clicked opened, the browser sends a GET / request to flask and this calls the send\_from\_directory function. Flask also takes the json object sent by the \textit{saveScore} function in JS and
+and writes it into \textit{history.txt}. It also returns a json object that shows the success and failure of the data being saved.
+
+When data is saved into \textit{history.txt}, it is of the format 
+
+\begin{center}
+    [2025-06-12 14:35:02] Herobrine \textbar 42 \textbar WALL \textbar 85
+\end{center}
+
+This data can be accessed using the bash query feature. This layer interacts with history.txt only.
+
+\section{Code Logic}
+\subsection{Game Logic}
+The game logic has a few key ideas behind it
+
+\subsection{Query Logic}
 
 \section{Directory Structure}
 \begin{verbatim}
