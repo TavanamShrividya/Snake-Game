@@ -28,11 +28,10 @@ sweetBerriesImage.src = "/static/foodImages/Sweet_Berries_JE1_BE1.png"
 const unitSize = 25;
 const normalSpeed = 200;
 const boostSpeed = 100;
+
+
 let gameLoop;
 let running = false;
-let xVelocity = unitSize;
-let yVelocity = 0;
-let countdownInterval;
 let duration = 0;
 let dataObject = {
     username: "",
@@ -40,15 +39,22 @@ let dataObject = {
     durationInSec: 0,
     causeOfDeath: ""
 };
-let boost = false;
-let foodX;
-let foodY;
-let food;
-let foodImage;
+
+
+let immuneInterval;
 let immune = false;
+
+let boostInterval;
+let boost = false;
+
 let snakeSpeed = normalSpeed;
+
 let highestScore = 0;
 let recordBeaten = false;
+
+
+let xVelocity = unitSize;
+let yVelocity = 0;
 let snake = [
     { x: unitSize * 4, y: 0 },
     { x: unitSize * 3, y: 0 },
@@ -56,6 +62,13 @@ let snake = [
     { x: unitSize, y: 0 },
     { x: 0, y: 0 }
 ];
+
+
+let foodX;
+let foodY;
+let food;
+let foodImage;
+
 
 ctx.imageSmoothingEnabled = false;
 
@@ -204,16 +217,16 @@ function displayImmuneTimer() {
     timerDiv.textContent = `Immunity Time Left: ${timeLeft}`;
 
     // Clear previous interval if golden apple is eaten again
-    clearInterval(countdownInterval);
+    clearInterval(immuneInterval);
 
     // Start countdown
-    countdownInterval = setInterval(() => {
+    immuneInterval = setInterval(() => {
         timeLeft--;
         timerDiv.textContent = `Immunity Time Left: ${timeLeft}`;
 
 
         if (timeLeft <= 0) {
-            clearInterval(countdownInterval);
+            clearInterval(immuneInterval);
             timerDiv.style.visibility = "hidden"; // Hide after 10 seconds
             immune = false;
         }
@@ -227,17 +240,17 @@ function displayBoostTimer() {
     timerDiv.style.visibility = "visible";
     timerDiv.textContent = `Boost Time Left: ${timeLeft}`;
 
-    // Clear previous interval if golden apple is eaten again
-    clearInterval(countdownInterval);
+    // Clear previous interval if sweet berry is eaten again
+    clearInterval(boostInterval);
 
     // Start countdown
-    countdownInterval = setInterval(() => {
+    boostInterval = setInterval(() => {
         timeLeft--;
         timerDiv.textContent = `Boost Time Left: ${timeLeft}`;
 
 
         if (timeLeft <= 0) {
-            clearInterval(countdownInterval);
+            clearInterval(boostInterval);
             timerDiv.style.visibility = "hidden"; // Hide after 10 seconds
             boost = false;
             snakeSpeed = normalSpeed;
@@ -424,7 +437,8 @@ async function sendScore(dataObject) {
 
 function resetGame() {
     clearTimeout(gameLoop);
-    clearInterval(countdownInterval);
+    clearInterval(immuneInterval);
+    clearInterval(boostInterval);
 
     immune = false;
     boost = false;
