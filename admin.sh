@@ -29,9 +29,10 @@ while true; do
         3)
             read -r -p "Filter since (YYYY-MM-DD HH:MM) or blank: " START_DATE
             data | awk -F'|' '
-            { sum_score+=$2; sum_time+=$4; if($3~/wall/)wall++; n++ }
-            END { if(n) printf "Games:%d AvgScore:%.1f AvgTime:%.1fs WallDeaths:%d(%.0f%%)\n",
-            n, sum_score/n, sum_time/n, wall, wall/n*100; else print "No data found." }' 
+            { sum_score+=$2; sum_time+=$4; if($3~/wall/)wall++;if($3~/body/) body++; n++ }
+            END { if(n) printf "Games:%d AvgScore:%.1f AvgTime:%.1fs Wall:%d(%.0f%%) Body:%d(%.0f%%)\n",
+                n, sum_score/n, sum_time/n, wall, wall/n*100, body, body/n*100; 
+                else print "No data found." }' 
             START_DATE="" ;;
         4)
             read -r -p "Delete (User/Timestamp/Invalid): " target

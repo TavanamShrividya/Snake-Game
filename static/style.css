@@ -119,17 +119,17 @@ body {
 
 #instructionText {
     background-image: url('/static/BGImages/bookBG.png');
-    background-size:contain;
+    background-size:cover;
     background-repeat: no-repeat;
     font-family: 'MyFont', sans-serif;
     font-size: 1.2vw;
     color: black;
-    height: 60vh;
-    width: 35vw;
+    height: 55vh;
+    width: 23vw;
     text-align: center;
-    padding-top: 5.2vw;
-    padding-left: 1vw;
-    padding-right: 1vw;
+    padding-top: 2.5vw;
+    padding-left: 1.5vw;
+    padding-right: 1.5vw;
 }
 
 #instructionsScreen,
