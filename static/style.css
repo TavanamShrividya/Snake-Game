@@ -29,6 +29,7 @@ body {
 
 #gameContainer {
     position: relative;
+    margin-top: 10px;
     width: 70vmin;   
     height: 70vmin;   
     display: flex;
@@ -47,7 +48,7 @@ body {
 }
 
 #scoreText {
-    padding: 10px;
+    padding: 5px;
     height: 50px;
     border: 2px solid;
     background-color: lightgray;
@@ -55,22 +56,22 @@ body {
     border-radius: 15px;
     margin-top: 1vmin;
     width: 10vmin;
-    font-size: 1.5vw;
+    font-size: 22px;
     visibility: visible;
 }
 
 #resetBtn {
     font-family: 'Minecraftia';
-    font-size: 22px;
-    width: 100px;
-    height: 50px;
+    font-size: 18px;
+    width: 80px;
+    height: 40px;
     border: 4px solid;
     border-radius: 15px;
     cursor: pointer;
     visibility: visible;
 }
 
-#timer {
+#immuneTimer, #boostTimer {
     visibility: hidden;
     text-align: center;
     font-size: 22px;
@@ -79,8 +80,17 @@ body {
     height: 44px;
     margin-top: 5px;
     position: absolute;
+
+}
+
+#immuneTimer {
     top: 10px;
     left: 10px;
+}
+
+#boostTimer {
+    top: 10px;
+    right: 10px;
 }
 
 #gameOverScreen {
@@ -101,7 +111,7 @@ body {
 }
 
 #gameOverText {
-    font-size: 60px;
+    font-size: 40px;
     color: white;
     text-align: center;
     margin-bottom: 10px;
@@ -109,9 +119,9 @@ body {
 
 .gameOverBtn {
     font-family: 'Minecraftia';
-    font-size: 22px;
-    width: 500px;
-    height: 50px;
+    font-size: 18px;
+    width: 400px;
+    height: 40px;
     border: 2px solid;
     box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 1);
     border-radius: 5px;
@@ -121,19 +131,19 @@ body {
 }
 
 #deathMsg {
-    font-size: 22px;
+    font-size: 18px;
     color: white;
     text-align: center;
 }
 
 #endScoreText {
-    font-size: 22px;
+    font-size: 18px;
     color: white;
     margin-bottom: 50px;
     text-align: center;
 }
 
 #score {
-    font-size: 22px;
+    font-size: 18px;
     color: yellow;    
 }
