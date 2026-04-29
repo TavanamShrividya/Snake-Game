@@ -18,13 +18,13 @@ const gameHeight = gameBoard.height;
 const boardBackground = "#0e0f24";
 const snakeBorder = "black";
 const carrotImage = new Image();
-    carrotImage.src = "/static/Carrot_JE3_BE2.png";
+carrotImage.src = "/static/Carrot_JE3_BE2.png";
 const pumpkinPieImage = new Image();
-    pumpkinPieImage.src = "/static/Pumpkin_Pie_JE2_BE2.png";
+pumpkinPieImage.src = "/static/Pumpkin_Pie_JE2_BE2.png";
 const appleImage = new Image();
-    appleImage.src = "/static/Golden_Apple_JE2_BE2.png"
+appleImage.src = "/static/Golden_Apple_JE2_BE2.png"
 const sweetBerriesImage = new Image();
-    sweetBerriesImage.src = "/static/Sweet_Berries_JE1_BE1.png"
+sweetBerriesImage.src = "/static/Sweet_Berries_JE1_BE1.png"
 const unitSize = 25;
 const normalSpeed = 200;
 const boostSpeed = 100;
@@ -33,7 +33,7 @@ let running = false;
 let xVelocity = unitSize;
 let yVelocity = 0;
 let countdownInterval;
-let duration= 0;
+let duration = 0;
 let dataObject = {
     username: "",
     score: 0,
@@ -57,7 +57,7 @@ let snake = [
 
 ctx.imageSmoothingEnabled = false;
 
-window.addEventListener("keydown", function(e) {
+window.addEventListener("keydown", function (e) {
     if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
         e.preventDefault();
 
@@ -66,14 +66,14 @@ window.addEventListener("keydown", function(e) {
     changeDirection(e);
 
 });
-resetBtn.addEventListener("click", resetGame);
-respawnBtn.addEventListener("click", resetGame);
+resetBtn.addEventListener("click", function () { resetGame(); gameStart(); });
+respawnBtn.addEventListener("click", function () { resetGame(); gameStart(); });
 instructionsBtn.addEventListener("click", displayInstructions);
 userNameBackBtn.addEventListener("click", displayTitleScreen);
 instructionsBackBtn.addEventListener("click", displayTitleScreen);
 enterUsernameBtn.addEventListener("click", enterUsername);
 titleScrnBtn.addEventListener("click", displayTitleScreen);
-startGameBtn.addEventListener("click",function(){
+startGameBtn.addEventListener("click", function () {
     const username = usernameInput.value.trim();
     if (username) {
         dataObject.username = username;
@@ -96,7 +96,6 @@ carrotImage.onload = checkImagesLoaded;
 pumpkinPieImage.onload = checkImagesLoaded;
 appleImage.onload = checkImagesLoaded;
 function displayTitleScreen() {
-    resetGame();
     document.getElementById("titleScreen").style.visibility = "visible";
     document.getElementById("instructionsScreen").style.display = "none";
     document.getElementById("usernameForm").style.display = "none";
@@ -104,8 +103,8 @@ function displayTitleScreen() {
 }
 
 function gameStart() {
-     resetGame(); 
-    document.getElementById("titleScreen").style.visibility = "hidden";  
+    resetGame();
+    document.getElementById("titleScreen").style.visibility = "hidden";
     document.getElementById("usernameForm").style.display = "none";
     document.getElementById("gameOverScreen").style.visibility = "hidden";
     document.getElementById("resetBtn").style.visibility = "visible";
@@ -117,8 +116,9 @@ function gameStart() {
     nextTick();
 };
 function enterUsername() {
-        document.getElementById("titleScreen").style.visibility = "hidden";
-    document.getElementById("usernameForm").style.display = "flex";}
+    document.getElementById("titleScreen").style.visibility = "hidden";
+    document.getElementById("usernameForm").style.display = "flex";
+}
 function nextTick() {
     if (running) {
         gameLoop = setTimeout(() => {
@@ -129,7 +129,7 @@ function nextTick() {
             if (immune == false) { checkGameOver(); }
             nextTick();
             duration += 1;
-            dataObject.durationInSec = Math.floor(duration/5)
+            dataObject.durationInSec = Math.floor(duration / 5)
         }, snakeSpeed);
     }
     else {
@@ -153,7 +153,7 @@ function randomFood(min, max) {
 }
 
 function createFood() {
-    
+
     let selectedFood = pickWhichFood();
     if (selectedFood < 0.6) {
         foodImage = carrotImage;
@@ -266,7 +266,8 @@ function moveSnake() {
         if (food == "pumpkinPie") {
             snake.unshift(addition1);
             snake.unshift(addition2);
-            updateScore(3); }
+            updateScore(3);
+        }
         else if (food == "carrot") {
             updateScore(1);
         }
@@ -294,8 +295,8 @@ function drawSnake() {
     ctx.strokeStyle = snakeBorder;
     snake.forEach(snakePart => {
         let snakeColor = ctx.createRadialGradient(
-            snakePart.x + unitSize/2, snakePart.y + unitSize/2, unitSize/8, 
-            snakePart.x + unitSize/2, snakePart.y + unitSize/2, unitSize);
+            snakePart.x + unitSize / 2, snakePart.y + unitSize / 2, unitSize / 8,
+            snakePart.x + unitSize / 2, snakePart.y + unitSize / 2, unitSize);
         snakeColor.addColorStop(0, "#254228");
         snakeColor.addColorStop(1, "#418b49");
         ctx.fillStyle = snakeColor
@@ -365,8 +366,8 @@ function checkGameOver() {
         }
     }
 };
-function displayInstructions(){
-      document.getElementById("titleScreen").style.visibility = "hidden";
+function displayInstructions() {
+    document.getElementById("titleScreen").style.visibility = "hidden";
     document.getElementById("instructionsScreen").style.display = "flex";
 
 }
@@ -379,24 +380,24 @@ function displayGameOver() {
 
 
     document.getElementById("deathMsg").innerHTML = `${dataObject.username} died because snake hit the ${dataObject.causeOfDeath}`;
-    
+
     document.getElementById("endScoreText").innerHTML = `Score: <span id="score">${dataObject.score}</span><br>Duration: <span id="score">${dataObject.durationInSec}</span> sec`
 }
 
 async function sendScore(dataObject) {
 
-    try{
+    try {
         const res = await fetch("/save_score", {
             method: 'POST',
             headers: {
-                'Content-Type' : 'application/json'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(dataObject)
         });
 
         const result = await res.json();
     }
-    catch (error){
+    catch (error) {
         console.error("Error saving score:", error);
     }
 
@@ -408,11 +409,10 @@ function resetGame() {
 
     immune = false;
     boost = false;
+    snakeSpeed = normalSpeed;
 
-    const timerDiv = document.getElementById("timer");
-    timerDiv.style.visibility = "hidden";
-
-    
+    document.getElementById("immuneTimer").style.visibility = "hidden";
+    document.getElementById("boostTimer").style.visibility = "hidden";
     document.getElementById("gameOverScreen").style.visibility = "hidden";
     document.getElementById("resetBtn").style.visibility = "visible";
     document.getElementById("scoreText").style.visibility = "visible";
