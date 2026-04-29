@@ -5,8 +5,7 @@ report.pdf: report.tex report.bib
 	bibtex report
 	pdflatex report.tex
 	pdflatex report.tex
-	pdflatex report.tex
 
 .PHONY: clean
 clean:
-	rm -f *.aux *.log *.bbl *.blg *.toc *.out *.txt
+	rm -f *.aux *.log *.bbl *.blg *.toc *.out *.run.xml *.bcf
