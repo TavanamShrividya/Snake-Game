@@ -56,24 +56,24 @@ body {
 
 #scoreText {
     padding: 10px;
-    height: 50px;
-    border: 2px solid;
+    height: 25vw;
+    border: 0.2vw solid;
     background-color: lightgray;
     text-align: center;
     border-radius: 15px;
     margin-top: 1vmin;
-    width: 10vmin;
-    font-size: 1.5vw;
+    width: 8vmin;
+    font-size: 1.2vw;
     visibility: visible;
 }
 
 #resetBtn {
     font-family: 'MyFont', sans-serif;
-    font-size: 18px;
-    width: 80px;
-    height: 40px;
-    border: 4px solid;
-    border-radius: 15px;
+    font-size: 1vw;
+    width: 5vw;
+    height: 3vw;
+    border: 0.2vw solid;
+    border-radius: 0.5vw;
     cursor: pointer;
     visibility: visible;
 }
