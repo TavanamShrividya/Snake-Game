@@ -3,6 +3,16 @@ const ctx = gameBoard.getContext("2d");
 const scoreText = document.querySelector("#scoreText");
 const resetBtn = document.querySelector("#resetBtn");
 const respawnBtn = document.querySelector("#respawnBtn");
+const titleScreen = document.querySelector("#titleScreen");
+const instructionsBtn = document.querySelector("#instructionsBtn");
+const usernameInput = document.querySelector("#usernameInput");
+const userNameBackBtn = document.querySelector("#userNameBackBtn");
+const instructionsBackBtn = document.querySelector("#instructionsBackBtn");
+const enterUsernameBtn = document.querySelector("#enterUsername");
+const startGameBtn = document.querySelector("#startGameBtn");
+const titleScrnBtn = document.querySelector("#titleScrnBtn");
+
+
 const gameWidth = gameBoard.width;
 const gameHeight = gameBoard.height;
 const boardBackground = "#0e0f24";
@@ -21,7 +31,7 @@ let yVelocity = 0;
 let countdownInterval;
 let duration= 0;
 let dataObject = {
-    username: "dummy_name",
+    username: "",
     score: 0,
     durationInSec: 0,
     causeOfDeath: ""
@@ -52,28 +62,57 @@ window.addEventListener("keydown", function(e) {
 });
 resetBtn.addEventListener("click", resetGame);
 respawnBtn.addEventListener("click", resetGame);
+instructionsBtn.addEventListener("click", displayInstructions);
+userNameBackBtn.addEventListener("click", displayTitleScreen);
+instructionsBackBtn.addEventListener("click", displayTitleScreen);
+enterUsernameBtn.addEventListener("click", enterUsername);
+titleScrnBtn.addEventListener("click", displayTitleScreen);
+startGameBtn.addEventListener("click",function(){
+    const username = usernameInput.value.trim();
+    if (username) {
+        dataObject.username = username;
+        gameStart();
+    } else {
+        alert("Please enter a username to start the game.");
+    }
+});
 
 let imagesLoaded = 0;
 
 function checkImagesLoaded() {
     imagesLoaded++;
     if (imagesLoaded === 3) {
-        gameStart();
+        displayTitleScreen();
     }
 }
 
 carrotImage.onload = checkImagesLoaded;
 pumpkinPieImage.onload = checkImagesLoaded;
 appleImage.onload = checkImagesLoaded;
+function displayTitleScreen() {
+    resetGame();
+    document.getElementById("titleScreen").style.visibility = "visible";
+    document.getElementById("instructionsScreen").style.display = "none";
+    document.getElementById("usernameForm").style.display = "none";
+    document.getElementById("gameOverScreen").style.visibility = "hidden";
+}
 
 function gameStart() {
+     resetGame(); 
+    document.getElementById("titleScreen").style.visibility = "hidden";  
+    document.getElementById("usernameForm").style.display = "none";
+    document.getElementById("gameOverScreen").style.visibility = "hidden";
+    document.getElementById("resetBtn").style.visibility = "visible";
+    document.getElementById("scoreText").style.visibility = "visible";
     running = true;
     scoreText.textContent = dataObject.score;
     createFood();
     drawFood();
     nextTick();
 };
-
+function enterUsername() {
+        document.getElementById("titleScreen").style.visibility = "hidden";
+    document.getElementById("usernameForm").style.display = "flex";}
 function nextTick() {
     if (running) {
         gameLoop = setTimeout(() => {
@@ -286,6 +325,11 @@ function checkGameOver() {
         }
     }
 };
+function displayInstructions(){
+      document.getElementById("titleScreen").style.visibility = "hidden";
+    document.getElementById("instructionsScreen").style.display = "flex";
+
+}
 
 function displayGameOver() {
 
@@ -347,6 +391,5 @@ function resetGame() {
         { x: unitSize, y: 0 },
         { x: 0, y: 0 }
     ];
-    gameStart();
 };
 
