@@ -55,7 +55,7 @@ body {
 }
 
 #scoreText {
-    padding: 5px;
+    padding: 10px;
     height: 50px;
     border: 2px solid;
     background-color: lightgray;
@@ -63,7 +63,7 @@ body {
     border-radius: 15px;
     margin-top: 1vmin;
     width: 10vmin;
-    font-size: 22px;
+    font-size: 1.5vw;
     visibility: visible;
 }
 
@@ -78,7 +78,7 @@ body {
     visibility: visible;
 }
 
-#immuneTimer, #boostTimer {
+#timer {
     visibility: hidden;
     text-align: center;
     font-size: 22px;
@@ -95,12 +95,22 @@ body {
     left: 10px;
 }
 
-#boostTimer {
-    top: 10px;
-    right: 10px;
-}
-
 #gameOverScreen {
+   position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;  /* hidden initially */
+    z-index: 999;
+    background: rgba(255, 0, 0, 0.25);/* 🔴 red overlay */
+}
+#instructionsScreen, #usernameForm {
     position: fixed;
     top: 0;
     left: 0;
@@ -108,13 +118,45 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
-
-    background: rgba(255, 0, 0, 0.25);/* 🔴 red overlay */
     
     justify-content: center;
     align-items: center;
-    visibility: hidden;  /* hidden initially */
-    z-index: 999;
+   
+    display : none;
+    z-index: 1010;
+    background : url(F167.jpg);
+    background-size: cover;
+}
+#usernameInput{
+     font-family: 'Minecraftia';
+    font-size: 14px;
+    background: #111;
+    color: #fff;
+    border: 2px solid #666;
+    padding: 10px 16px;
+    width: 500px;
+    margin-bottom: 10px;
+    outline: none;
+    text-align: center;
+    
+}
+#usernaameForm{
+    background: rgba(0, 0, 0, 0.85)
+}
+#titleScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    visibility: visible;
+    justify-content: center;
+    align-items: center;
+    z-index: 1010;
+    background : url(F167.jpg);
+    background-size: cover;
 }
 
 #gameOverText {
