@@ -130,7 +130,7 @@ function nextTick() {
             nextTick();
             duration += 1;
             dataObject.durationInSec = Math.floor(duration/5)
-        }, 200);
+        }, snakeSpeed);
     }
     else {
         displayGameOver();
@@ -155,20 +155,24 @@ function randomFood(min, max) {
 function createFood() {
     
     let selectedFood = pickWhichFood();
-    if (selectedFood < 0.7) {
+    if (selectedFood < 0.6) {
         foodImage = carrotImage;
         food = "carrot";
     }
-    else if (selectedFood < 0.9) {
+    else if (selectedFood < 0.85) {
         foodImage = pumpkinPieImage;
         food = "pumpkinPie";
     }
-    else {
+    else if (selectedFood < 0.9) {
         foodImage = appleImage;
         food = "goldenApple";
     }
+    else {
+        foodImage = sweetBerriesImage;
+        food = "sweetBerries";
+    }
 
-    if (food == "pumpkinPie") {
+    if (food == "pumpkinPie" || food == "sweetBerries") {
         foodX = randomFood(3 * unitSize, gameWidth - 4 * unitSize);
         foodY = randomFood(3 * unitSize, gameHeight - 4 * unitSize);
     }
@@ -178,12 +182,12 @@ function createFood() {
     }
 };
 
-function displayTimer() {
-    const timerDiv = document.getElementById("timer");
+function displayImmuneTimer() {
+    const timerDiv = document.getElementById("immuneTimer");
     let timeLeft = 10;
     //show timer
     timerDiv.style.visibility = "visible";
-    timerDiv.textContent = timeLeft;
+    timerDiv.textContent = `Immunity Time Left: ${timeLeft}`;
 
     // Clear previous interval if golden apple is eaten again
     clearInterval(countdownInterval);
@@ -191,7 +195,7 @@ function displayTimer() {
     // Start countdown
     countdownInterval = setInterval(() => {
         timeLeft--;
-        timerDiv.textContent = timeLeft;
+        timerDiv.textContent = `Immunity Time Left: ${timeLeft}`;
 
 
         if (timeLeft <= 0) {
@@ -202,6 +206,30 @@ function displayTimer() {
     }, 1000);
 };
 
+function displayBoostTimer() {
+    const timerDiv = document.getElementById("boostTimer");
+    let timeLeft = 10;
+    //show timer
+    timerDiv.style.visibility = "visible";
+    timerDiv.textContent = `Boost Time Left: ${timeLeft}`;
+
+    // Clear previous interval if golden apple is eaten again
+    clearInterval(countdownInterval);
+
+    // Start countdown
+    countdownInterval = setInterval(() => {
+        timeLeft--;
+        timerDiv.textContent = `Boost Time Left: ${timeLeft}`;
+
+
+        if (timeLeft <= 0) {
+            clearInterval(countdownInterval);
+            timerDiv.style.visibility = "hidden"; // Hide after 10 seconds
+            boost = false;
+            snakeSpeed = normalSpeed;
+        }
+    }, 1000);
+};
 
 function drawFood() {
     ctx.drawImage(foodImage, foodX - 3, foodY - 3, unitSize + 6, unitSize + 6);
@@ -242,10 +270,16 @@ function moveSnake() {
         else if (food == "carrot") {
             updateScore(1);
         }
+        else if (food == "sweetBerries") {
+            snake.pop();
+            boost = true;
+            snakeSpeed = boostSpeed;
+            displayBoostTimer();
+        }
         else {
             snake.pop();
             immune = true;
-            displayTimer();
+            displayImmuneTimer();
         }
         createFood();
 
@@ -373,6 +407,7 @@ function resetGame() {
     clearInterval(countdownInterval);
 
     immune = false;
+    boost = false;
 
     const timerDiv = document.getElementById("timer");
     timerDiv.style.visibility = "hidden";
