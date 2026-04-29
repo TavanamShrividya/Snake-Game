@@ -1,3 +1,4 @@
+/* ---Defining Constants --- */
 const gameBoard = document.querySelector("#gameBoard");
 const ctx = gameBoard.getContext("2d");
 const scoreText = document.querySelector("#scoreText");
@@ -29,7 +30,7 @@ const unitSize = 25;
 const normalSpeed = 200;
 const boostSpeed = 100;
 
-
+/* --- Initializing Variables --- */
 let gameLoop;
 let running = false;
 let duration = 0;
@@ -52,7 +53,7 @@ let snakeSpeed = normalSpeed;
 let highestScore = 0;
 let recordBeaten = false;
 
-
+/* ---Defining Snake and Food--- */
 let xVelocity = unitSize;
 let yVelocity = 0;
 let snake = [
@@ -71,6 +72,7 @@ let foodImage;
 
 
 ctx.imageSmoothingEnabled = false;
+/* --- Initialization of Event Listeners --- */
 
 window.addEventListener("keydown", function (e) {
     if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
@@ -88,6 +90,7 @@ userNameBackBtn.addEventListener("click", displayTitleScreen);
 instructionsBackBtn.addEventListener("click", displayTitleScreen);
 enterUsernameBtn.addEventListener("click", enterUsername);
 titleScrnBtn.addEventListener("click", displayTitleScreen);
+// Submitting username on Enter key
 usernameInput.addEventListener("keydown",function(e){
     if(e.key === "Enter" && document.getElementById("usernameForm").style.display !== "none"){
          e.preventDefault();
@@ -103,7 +106,7 @@ startGameBtn.addEventListener("click", function () {
         alert("Please enter a username to start the game.");
     }
 });
-
+/* --- Image Loading --- */
 let imagesLoaded = 0;
 
 function checkImagesLoaded() {
@@ -117,15 +120,17 @@ carrotImage.onload = checkImagesLoaded;
 pumpkinPieImage.onload = checkImagesLoaded;
 appleImage.onload = checkImagesLoaded;
 sweetBerriesImage.onload = checkImagesLoaded;
+/* --- System Functions --- */
+
 function displayTitleScreen() {
     document.getElementById("titleScreen").style.visibility = "visible";
     document.getElementById("instructionsScreen").style.display = "none";
     document.getElementById("usernameForm").style.display = "none";
     document.getElementById("gameOverScreen").style.visibility = "hidden";
 }
-
+// Initializes the game state and starts the loop
 function gameStart() {
-    const savedUsername = dataObject.username;  // save before reset clears it
+    const savedUsername = dataObject.username; 
     resetGame();
     dataObject.username = savedUsername; 
     document.getElementById("titleScreen").style.visibility = "hidden";
@@ -145,7 +150,7 @@ function enterUsername() {
     document.getElementById("titleScreen").style.visibility = "hidden";
     document.getElementById("usernameForm").style.display = "flex";
 };
-
+// The recursive timing loop that drives movement and game updates
 function nextTick() {
     if (running) {
         gameLoop = setTimeout(() => {
@@ -270,6 +275,7 @@ function updateScore(points) {
         recordBeaten = true;
     }
 }
+// Logic for snake growth, power-up activation, and wall-wrapping
 
 function moveSnake() {
     const head = {
@@ -292,7 +298,7 @@ function moveSnake() {
     }
 
     snake.unshift(head);
-    //if food is eaten
+    // Check if head overlaps with food and apply the food effects
     if (snake[0].x == foodX && snake[0].y == foodY) {
         if (food == "pumpkinPie") {
             snake.unshift(addition1);
@@ -320,6 +326,7 @@ function moveSnake() {
         snake.pop();
     }
 };
+// Draws each part of the snake with a gradient color and border
 
 function drawSnake() {
 
@@ -336,6 +343,7 @@ function drawSnake() {
     })
 };
 
+// Change direction based on key press, with validation to prevent reversing into itself
 function changeDirection(event) {
 
     const goingUp = (yVelocity == -unitSize);
@@ -382,7 +390,7 @@ function changeDirection(event) {
             break;
     }
 };
-
+// Validates if the snake head has hit boundaries or itself
 function checkGameOver() {
     if (snake[0].x < 0 || snake[0].x >= gameWidth ||
         snake[0].y < 0 || snake[0].y >= gameHeight) {
@@ -397,12 +405,14 @@ function checkGameOver() {
         }
     }
 };
+
+// Displays the instructions screen and hides the title screen
 function displayInstructions() {
     document.getElementById("titleScreen").style.visibility = "hidden";
     document.getElementById("instructionsScreen").style.display = "flex";
 
 }
-
+// Displays the game over screen with the player's score, duration, cause of death, and high score status
 function displayGameOver() {
 
     document.getElementById("gameOverScreen").style.visibility = "visible";
@@ -415,7 +425,7 @@ function displayGameOver() {
     
     document.getElementById("endScoreText").innerHTML = `Score: <span id="score">${dataObject.score}</span><br>Duration: <span id="score">${dataObject.durationInSec}</span> sec`
 }
-
+// POST request to save game data to the server
 async function sendScore(dataObject) {
 
     try {
@@ -434,7 +444,7 @@ async function sendScore(dataObject) {
     }
 
 }
-
+// Resets all variables and intervals for a clean slate when starting a new game or respawning after death
 function resetGame() {
     clearTimeout(gameLoop);
     clearInterval(immuneInterval);

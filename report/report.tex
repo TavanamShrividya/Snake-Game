@@ -78,6 +78,13 @@ There are two timers in the game: \textbf{Immunity Timer} and \textbf{Boost Time
 The game ends when the snake hits the wall or itself. Under such situations, the game over screen is displayed. It has a red overlay with display details about the game score, username, cause of death, duration game was played. It also has two buttons; \textbf{Respawn} and \textbf{Title Screen}; Respawn allows one to replay the game with the same username. To play with a different username, one can go back to the Title Screen.
 
 \subsection{Bash Query}
+ admin.sh performs various operations on the data flat history.txt file using various bash tools. \textit{admin.sh}, designed for backend data management. This tool allows us to interact directly with \textit{history.txt} through a menu-driven interface in the terminal without requiring the Flask server to be active. Key features include:
+\begin{itemize}
+    \item \textbf{User Filtering:} Allows us to select a specific username; once selected, all subsequent statistics and views are filtered to show only that user's history.
+    \item \textbf{Analytics:} Calculates things like mean scores, average survival time, and the percentage of deaths caused specifically by wall or collision with body.
+    \item \textbf{Deletion by filtering:} Provides functionality to delete specific entries username or entries that don't follow a particular format.
+    \item \textbf{Log Rotation:} Implements a rotation system that archives and compresses (Gzip) the current history file with a date extension and leaves the log file with just 10 recent entries.
+\end{itemize}
 
 \section{Design and Architecture}
 The project works in three layers. Frontend: \textbf{Javascript}, \textbf{Python: Flask} and backend: \textbf{Bash Script}.
@@ -117,6 +124,25 @@ The food is considered eaten when the x and y coordinates of the snake's head ar
 The snake can die in two condition; when the snake hits the wall or when the snake collides with it's own body. The first is done by a simple if condition check. The later is done using a loop that checks if coordinates of the head are equal to head of any of the body part.
 
 \subsection{Query Logic}
+    \subsubsection*{Choice-Specific Logic}
+
+    \begin{description}
+        \item[Choice 1 (User Selection):] The script reads user input into a global variable "local". If the input is blank, the variable is cleared, resetting the scope to the entire file for all other menu options.
+        \item[Choice 2 (Paginated View):] The output of \textit{data()} is piped into \textit{less}. This allows us to scroll through large log files, search for strings, and navigate without cluttering the terminal .
+
+        \item[Choice 3 (Analytical Processing):] The filtered data is passed to \textit{awk} with the pipe (\textbar) defined as the field separator (\verb|-F'|'|).
+        \begin{itemize}
+            \item \textbf{Accumulation:} As \textit{awk} iterates through lines, it increments a counter (\textit{n}) and adds values from field \$2 (Score) and \$4 (Time) to running totals.
+            \item \textbf{Pattern Matching:} It checks field \$3 for the string "wall" using a regular expression match string. If found, a "wall death" or "body" counter is incremented.
+            \item \textbf{Final Calculation:} In the \verb|END| block, the script performs floating-point division to produce means and percentages, formatted to one decimal place via \textit{printf}.
+    \end{itemize}
+
+    \item[Choice 4 (Deletion):] The script uses \textit{grep -v} (inverse match) to stream every line \textbf{except} the one matching the target into a temporary file. This handles both specific username/timestamp deletions and "invalid" line cleaning. The \verb|mv| command then replaces the database .
+
+    \item[Choice 5 (Cyclic Rotation):] This follows a "Backup-then-Truncate" logic. First, the \textit{tar} utility creates a compressed file. The filename is generated dynamically using \verb|date +%Y%m%d| to prevent overwriting same-day backups. Then \textit{tail} command keeps only the 10 most recent entries.
+
+    \item[Choice 6 (Columnar Sorting):] The logic utilizes the \textit{sort} utility with specific flags. For scores, it uses \verb|-k2,2 -nr|, which tells the system to look strictly at the second field, treat it as a number, and sort in reverse (highest first). For users, it uses \verb|-t']' -k2|, splitting the line at the closing bracket of the timestamp to isolate and sort by the username field.
+\end{description}
 
 
 \section{Installation and Setup}
