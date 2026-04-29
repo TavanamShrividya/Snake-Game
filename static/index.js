@@ -23,7 +23,11 @@ const pumpkinPieImage = new Image();
     pumpkinPieImage.src = "/static/Pumpkin_Pie_JE2_BE2.png";
 const appleImage = new Image();
     appleImage.src = "/static/Golden_Apple_JE2_BE2.png"
+const sweetBerriesImage = new Image();
+    sweetBerriesImage.src = "/static/Sweet_Berries_JE1_BE1.png"
 const unitSize = 25;
+const normalSpeed = 200;
+const boostSpeed = 100;
 let gameLoop;
 let running = false;
 let xVelocity = unitSize;
@@ -36,11 +40,13 @@ let dataObject = {
     durationInSec: 0,
     causeOfDeath: ""
 };
+let boost = false;
 let foodX;
 let foodY;
 let food;
 let foodImage;
-let immune = false
+let immune = false;
+let snakeSpeed = normalSpeed;
 let snake = [
     { x: unitSize * 4, y: 0 },
     { x: unitSize * 3, y: 0 },
