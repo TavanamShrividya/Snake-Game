@@ -5,15 +5,12 @@ START_DATE=""
 
 data() {
     local entry
-    # Logic Fix: Adding a space and pipe after the variable ensures 
-    # we don't match "vidya" when searching for "vid"
     if [[ -n "$SELECTED_USER" ]]; then
         entry=$(grep "\] $SELECTED_USER |" "$FILE")
     else
         entry=$(cat "$FILE")
     fi
     
-    # Timestamp Filter
     if [[ -n "$START_DATE" ]]; then
         entry=$(echo "$entry" | awk -v d="$START_DATE" '$0 >= "["d')
     fi
@@ -30,7 +27,6 @@ while true; do
         2)
             data | less ;;
         3)
-            # Logic: Input must be YYYY-MM-DD or YYYY-MM-DD HH:MM
             read -r -p "Filter since (YYYY-MM-DD HH:MM) or blank: " START_DATE
             data | awk -F'|' '
             { sum_score+=$2; sum_time+=$4; if($3~/wall/)wall++; n++ }
@@ -43,25 +39,21 @@ while true; do
             read -r -p "Confirm delete '$target'? (y/n): " confirm
             if [[ "$confirm" == "y" ]]; then
                 if [[ "$target" == "invalid" ]]; then
-                    # Keeps lines with 4 pipe-separated columns
                     grep -E "^\[.*\] .*\|.*\|.*\|.*$" "$FILE" > "$FILE.tmp"
                 else
-                    # Logic Fix: Search for the string exactly as it appears
                     grep -v "$target" "$FILE" > "$FILE.tmp"
                 fi
                 mv "$FILE.tmp" "$FILE" && echo "Done."
             fi ;;
         5)
-            # Reference Logic: compress, dateext, rotate, create
             tar -czf "history_$(date +%Y%m%d).tar.gz" "$FILE"
             tail -n 10 "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
             echo "Rotated." ;;
         6)
             read -r -p "Sort by (score/user/time): " sort_type
             case $sort_type in
-                # Logic: Isolate column 2 for numeric sort
                 score) data | sort -t'|' -k2,2 -nr ;;
-                user)  data | sort -t'|' -k1 ;;
+                user)  data | sort -t']' -k2;;
                 *)     data | sort -r ;;
             esac ;;
         7)
