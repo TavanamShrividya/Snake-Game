@@ -334,7 +334,7 @@ function displayGameOver() {
     document.getElementById("scoreText").style.visibility = "hidden";
 
 
-    document.getElementById("deathMsg").innerHTML = `${dataObject.username} died because snake hit the ${dataObject.causeOfDeath}`;
+    document.getElementById("deathMsg").innerHTML = `${dataObject.username} died because snake hit the <span style="color: yellow;">${dataObject.causeOfDeath}</span>`;
     
     document.getElementById("endScoreText").innerHTML = `Score: <span id="score">${dataObject.score}</span><br>Duration: <span id="score">${dataObject.durationInSec}</span> sec`
 }
