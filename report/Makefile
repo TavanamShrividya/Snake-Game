@@ -1,6 +1,10 @@
 all: report.pdf
 
-report.pdf: report.tex refs.bib
+IMAGES = ../static/BGImages/bookBG.png \
+         ../static/BGImages/MainBG.jpg \
+         ../static/BGImages/TitleScreenBG.jpg
+
+report.pdf: report.tex refs.bib $(IMAGES)
 	pdflatex report.tex
 	bibtex report
 	pdflatex report.tex
